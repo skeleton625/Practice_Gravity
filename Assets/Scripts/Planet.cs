@@ -36,14 +36,14 @@ public class Planet : MonoBehaviour
 
             // Plane이 받는 Planet의 중력 Vector
             var gravityVector = (body.position - transform.position).normalized;
-            body.MovePosition(gravityVector * (planetRadius + planeHeightFromGround[i]));
+            body.MovePosition(gravityVector * (planetRadius + planeHeightFromGround[i]) + transform.position);
 
             // Plane의 Forward 방향으로 Velocity (힘)을 적용
             body.velocity = body.transform.forward * planeMoveSpeed[i] * Time.deltaTime;
 
             // Planet의 표면을 이동하도록 Plane의 Forward 방향을 회전
             var planeRotation = Quaternion.FromToRotation(body.transform.up, gravityVector) * body.rotation;
-            body.MoveRotation(Quaternion.Slerp(body.rotation, planeRotation, speed * Time.deltaTime));
+            body.MoveRotation(planeRotation);
         }
     }
     #endregion
